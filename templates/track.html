@@ -1,0 +1,10 @@
+<!doctype html><html><head><title>Product {{product.id}} - SupplyChainX</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head><body><main>
+<a href="/">← Dashboard</a><header><h1>{{product.name}}</h1><p>Product ID: {{product.id}} | Manufacturer: {{product.manufacturer}}</p><span class="badge">{{product.current_stage}}</span></header>
+{% with messages = get_flashed_messages() %}{% for m in messages %}<p class="notice">{{m}}</p>{% endfor %}{% endwith %}
+<section class="card"><h2>Product details</h2><p>{{product.description}}</p><p><b>Latest transaction:</b> <code>{{product.tx_hash}}</code></p><img width="160" src="/static/qr/product_{{product.id}}.png" alt="Product QR code"><p>Scan QR code to open this product history.</p></section>
+<section class="card"><h2>Update supply-chain stage</h2><form method="post" action="/update/{{product.id}}">
+<label>Stage</label><select name="stage"><option>Dispatched</option><option>In Transit</option><option>Received by Retailer</option><option>Available for Sale</option></select>
+<label>Participant</label><input name="actor" required placeholder="Distributor / retailer">
+<label>Note</label><textarea name="note"></textarea><button>Save update</button></form></section>
+<section class="card"><h2>Traceability history</h2><ol>{% for e in events %}<li><b>{{e.stage}}</b> — {{e.actor}} <small>{{e.created_at}}</small><p>{{e.note}}</p><code>{{e.tx_hash}}</code></li>{% endfor %}</ol></section>
+</main></body></html>

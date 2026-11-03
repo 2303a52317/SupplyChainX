@@ -1,0 +1,10 @@
+<!doctype html><html><head><title>SupplyChainX</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body><main><header><h1>SupplyChainX</h1><p>Blockchain-based supply chain tracking</p><span class="badge">{% if connected %}Ganache connected{% else %}Local demo mode{% endif %}</span></header>
+{% with messages = get_flashed_messages() %}{% for m in messages %}<p class="notice">{{m}}</p>{% endfor %}{% endwith %}
+<section class="card"><h2>Register Product</h2><form method="post" action="/add">
+<label>Product name</label><input name="name" required placeholder="e.g. Organic Rice">
+<label>Manufacturer</label><input name="manufacturer" required placeholder="Company / person">
+<label>Description</label><textarea name="description" placeholder="Product details"></textarea><button>Register on system</button></form></section>
+<section class="card"><h2>Products</h2>{% if products %}<table><tr><th>ID</th><th>Product</th><th>Manufacturer</th><th>Current stage</th><th></th></tr>
+{% for p in products %}<tr><td>{{p.id}}</td><td>{{p.name}}</td><td>{{p.manufacturer}}</td><td>{{p.current_stage}}</td><td><a href="/track/{{p.id}}">View history</a></td></tr>{% endfor %}</table>{% else %}<p>No products registered yet.</p>{% endif %}</section>
+</main></body></html>
