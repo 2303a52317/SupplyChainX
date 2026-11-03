@@ -121,6 +121,7 @@ def track(pid):
         return redirect(url_for("index"))
     return render_template("track.html", product=product, events=events)
 
+init_db()
+
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True)
